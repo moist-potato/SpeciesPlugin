@@ -1,6 +1,8 @@
 package me.helena.speciesPlugin.menus;
 
 import me.helena.speciesPlugin.SpeciesMenuCommand;
+import me.helena.speciesPlugin.SpeciesPlugin;
+import me.helena.speciesPlugin.models.PlayerData;
 import me.helena.speciesPlugin.utils.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -50,24 +52,30 @@ public class SpeciesMenu implements Listener {
             switch(clickedItem.getType()){
                 case FOX_SPAWN_EGG: {
                     foxMenu.openFoxMenu(player);
+                    SpeciesPlugin.getPlayerData(player.getUniqueId()).setSpecies(1);
                     break;
                 }
                 case FROG_SPAWN_EGG: {
                     frogMenu.openFrogMenu(player);
+                    SpeciesPlugin.getPlayerData(player.getUniqueId()).setSpecies(2);
                     break;
                 }
                 case DOLPHIN_SPAWN_EGG: {
                     player.sendMessage("You are now a dolphin.");
                     player.performCommand("disguise Dolphin");
+                    SpeciesPlugin.getPlayerData(player.getUniqueId()).setSpecies(3);
                     player.closeInventory();
                     break;
                 }
                 case CAT_SPAWN_EGG: {
                     catMenu.openCatMenu(player);
+                    SpeciesPlugin.getPlayerData(player.getUniqueId()).setSpecies(4);
+                    Bukkit.broadcastMessage("id: " + SpeciesPlugin.getPlayerData(player.getUniqueId()).getSpecies());
                     break;
                 }
                 case PARROT_SPAWN_EGG: {
                     parrotMenu.openParrotMenu(player);
+                    SpeciesPlugin.getPlayerData(player.getUniqueId()).setSpecies(5);
                     break;
                 }
             }

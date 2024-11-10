@@ -1,7 +1,9 @@
 package me.helena.speciesPlugin.menus;
 
+import me.helena.speciesPlugin.utils.CC;
 import me.helena.speciesPlugin.utils.ItemUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,20 +12,22 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 public class CatMenu implements Listener {
     public void openCatMenu(Player player) {
         Inventory menu = Bukkit.createInventory(null, 27, "Cat Variants Menu");
-        ItemStack whiteItem = ItemUtils.CreateCustomItem(new ItemStack(Material.WHITE_WOOL), "White", "", true);
-        ItemStack blackItem = ItemUtils.CreateCustomItem(new ItemStack(Material.BLACK_CONCRETE_POWDER), "Tuxedo", "", true);
-        ItemStack redItem = ItemUtils.CreateCustomItem(new ItemStack(Material.ORANGE_WOOL), "Red", "", true);
-        ItemStack siameseItem = ItemUtils.CreateCustomItem(new ItemStack(Material.BROWN_WOOL), "Siamese", "", true);
-        ItemStack britishShorthairItem = ItemUtils.CreateCustomItem(new ItemStack(Material.LIGHT_GRAY_WOOL), "British Shorthair", "", true);
-        ItemStack calicoItem = ItemUtils.CreateCustomItem(new ItemStack(Material.ORANGE_CONCRETE_POWDER), "Calico", "", true);
-        ItemStack persianItem = ItemUtils.CreateCustomItem(new ItemStack(Material.WHITE_TERRACOTTA), "Persian", "", true);
-        ItemStack ragdollItem = ItemUtils.CreateCustomItem(new ItemStack(Material.LIGHT_GRAY_CONCRETE_POWDER), "Ragdoll", "", true);
-        ItemStack tabbyItem = ItemUtils.CreateCustomItem(new ItemStack(Material.BROWN_CONCRETE_POWDER), "Tabby", "", true);
-        ItemStack allBlackItem = ItemUtils.CreateCustomItem(new ItemStack(Material.BLACK_WOOL), "Black", "", true);
-        ItemStack jellieItem = ItemUtils.CreateCustomItem(new ItemStack(Material.GRAY_WOOL), "Jellie", "", true);
+        ItemStack whiteItem = ItemUtils.CreateCustomItem(new ItemStack(Material.WHITE_WOOL), "White", CC.translate("&fwhite"), true);
+        ItemStack blackItem = ItemUtils.CreateCustomItem(new ItemStack(Material.BLACK_CONCRETE_POWDER), "Tuxedo", CC.translate("&fblack"), true);
+        ItemStack redItem = ItemUtils.CreateCustomItem(new ItemStack(Material.ORANGE_WOOL), "Red", CC.translate("&fred"), true);
+        ItemStack siameseItem = ItemUtils.CreateCustomItem(new ItemStack(Material.BROWN_WOOL), "Siamese", CC.translate("&fsiamese"), true);
+        ItemStack britishShorthairItem = ItemUtils.CreateCustomItem(new ItemStack(Material.LIGHT_GRAY_WOOL), "British Shorthair", CC.translate("&fbritish_shorthair"), true);
+        ItemStack calicoItem = ItemUtils.CreateCustomItem(new ItemStack(Material.ORANGE_CONCRETE_POWDER), "Calico", CC.translate("&fcalico"), true);
+        ItemStack persianItem = ItemUtils.CreateCustomItem(new ItemStack(Material.WHITE_TERRACOTTA), "Persian", CC.translate("&fpersian"), true);
+        ItemStack ragdollItem = ItemUtils.CreateCustomItem(new ItemStack(Material.LIGHT_GRAY_CONCRETE_POWDER), "Ragdoll", CC.translate("&fragdoll"), true);
+        ItemStack tabbyItem = ItemUtils.CreateCustomItem(new ItemStack(Material.BROWN_CONCRETE_POWDER), "Tabby", CC.translate("&ftabby"), true);
+        ItemStack allBlackItem = ItemUtils.CreateCustomItem(new ItemStack(Material.BLACK_WOOL), "Black", CC.translate("&fall_black"), true);
+        ItemStack jellieItem = ItemUtils.CreateCustomItem(new ItemStack(Material.GRAY_WOOL), "Jellie", CC.translate("&fjellie"), true);
 
         menu.setItem(2, whiteItem);
         menu.setItem(3, blackItem);
@@ -47,72 +51,18 @@ public class CatMenu implements Listener {
             event.setCancelled(true);
             ItemStack clickedItem = event.getCurrentItem();
             Player player = (Player) event.getWhoClicked();
-            switch(clickedItem.getType()){
-                case WHITE_WOOL: {
-                    player.sendMessage("You are now a white cat.");
-                    player.performCommand("disguise Cat SetType WHITE");
-                    break;
-                }
 
-                case BLACK_CONCRETE_POWDER: {
-                    player.sendMessage("You are now a tuxedo cat.");
-                    player.performCommand("disguise Cat SetType BLACK");
-                    break;
-                }
+            if (clickedItem.getType() != Material.AIR) {
 
-                case ORANGE_WOOL: {
-                    player.sendMessage("You are now a red cat.");
-                    player.performCommand("disguise Cat SetType RED");
-                    break;
-                }
+                List<String> type = clickedItem.getItemMeta().getLore();
 
-                case BROWN_WOOL: {
-                    player.sendMessage("You are now a siamese cat.");
-                    player.performCommand("disguise Cat SetType SIAMESE");
-                    break;
-                }
+                String firstLine = type.getFirst();
 
-                case LIGHT_GRAY_WOOL: {
-                    player.sendMessage("You are now a british shorthair cat.");
-                    player.performCommand("disguise Cat SetType BRITISH_SHORTHAIR");
-                    break;
-                }
+                firstLine = ChatColor.stripColor(firstLine);
 
-                case ORANGE_CONCRETE_POWDER: {
-                    player.sendMessage("You are now a calico cat.");
-                    player.performCommand("disguise Cat SetType CALICO");
-                    break;
-                }
+                player.sendMessage("You are now a " + clickedItem.getItemMeta().getDisplayName() + " cat");
+                player.performCommand("disguise Cat setType " + firstLine);
 
-                case WHITE_TERRACOTTA: {
-                    player.sendMessage("You are now a persian cat.");
-                    player.performCommand("disguise Cat SetType PERSIAN");
-                    break;
-                }
-
-                case LIGHT_GRAY_CONCRETE_POWDER: {
-                    player.sendMessage("You are now a ragdoll cat.");
-                    player.performCommand("disguise Cat SetType RAGDOLL");
-                    break;
-                }
-
-                case BROWN_CONCRETE_POWDER: {
-                    player.sendMessage("You are now a tabby cat.");
-                    player.performCommand("disguise Cat SetType TABBY");
-                    break;
-                }
-
-                case BLACK_WOOL: {
-                    player.sendMessage("You are now a black cat.");
-                    player.performCommand("disguise Cat SetType ALL_BLACK");
-                    break;
-                }
-
-                case GRAY_WOOL: {
-                    player.sendMessage("You are now a jellie cat.");
-                    player.performCommand("disguise Cat SetType JELLIE");
-                    break;
-                }
             }
 
             player.closeInventory();
